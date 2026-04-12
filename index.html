@@ -80,43 +80,43 @@ brief delay in processing high- resolution images
     /* window.onload necessary to keep javascripts from running before the app gets a chance to load entirely. */
     window.onload = function () {
       console.log("Page loaded"); // This logs a message once the window has finished loading
-      var fileInput = document.getElementById("fileInput");  // Gets the HTML input element for the photo
-      var messageDisplayArea = document.getElementById("messageDisplayArea"); // Reference to the area where status messages are shown
-      var canvas = document.getElementById("myCanvas"); // Gets the first canvas element for the original image
-      var context = canvas.getContext("2d"); // This creates the 2D rendering context for the first canvas
+      var fileInput = document.getElementById("fileInput");  /* Gets the HTML input element for the photo */
+      var messageDisplayArea = document.getElementById("messageDisplayArea"); /* Reference to the area where status messages are shown */
+      var canvas = document.getElementById("myCanvas"); /* Gets the first canvas element for the original image */
+      var context = canvas.getContext("2d"); /* This creates the 2D rendering context for the first canvas */
 
-      var canvas2 = document.getElementById("dataCanvas"); // Gets the second canvas element for the processed (blue) image
-      var context2 = canvas2.getContext("2d"); // Creates the 2D rendering context for the second canvas
+      var canvas2 = document.getElementById("dataCanvas"); /* Gets the second canvas element for the processed (blue) image */
+      var context2 = canvas2.getContext("2d"); /* Creates the 2D rendering context for the second canvas */
 
-      context.font = "20pt Calibri"; // Sets the font style for the first canvas placeholder
-      context.fillText("Original image will go here", 10, 20); // Draws the placeholder text at coordinates (10, 20)
+      context.font = "20pt Calibri"; /* Sets the font style for the first canvas placeholder */
+      context.fillText("Original image will go here", 10, 20); /* Draws the placeholder text at coordinates (10, 20) */
 
-      context2.font = "20pt Calibri"; // Sets the font style for the second (blue) canvas placeholder
-      context2.fillText("Blue image will go here", 10, 20); // Draws the blue image placeholder text
+      context2.font = "20pt Calibri"; /* Sets the font style for the second (blue) canvas placeholder */
+      context2.fillText("Blue image will go here", 10, 20); /* Draws the blue image placeholder text */
 
       /* fileInput.addEventListener looks for any change in the <input> tag indicating that the user has selected a file (picture). */
       fileInput.addEventListener("change", function (e) {
-        var file = fileInput.files[0]; // Accesses the first file from the user's selection
-        var imageType = /image.*/; // Defines a regular expression to check if the file is an image
+        var file = fileInput.files[0]; /* Accesses the first file from the user's selection */
+        var imageType = /image.*/; /* Defines a regular expression to check if the file is an image */
 
-        if (!file) { // Checks if the file object is empty
+        if (!file) { /* Checks if the file object is empty */
           messageDisplayArea.innerHTML = "No file selected";
-          return; // Tells the user nothing was uploaded
+          return; /* Tells the user nothing was uploaded */
         }
 
-        // Check file type
-        if (!file.type.match("image.*")) { // Checks if the file is actually an image (jpg, png, etc.)
+        /* Check file type */
+        if (!file.type.match("image.*")) { /* Checks if the file is actually an image (jpg, png, etc.) */'
           messageDisplayArea.innerHTML = "File not supported!";
-          return; // Alerts the user if they picked a wrong file type
+          return; /* Alerts the user if they picked a wrong file type */
         }
 
-        messageDisplayArea.innerHTML = "You picked an image!"; // Updates the UI to confirm successful selection
+        messageDisplayArea.innerHTML = "You picked an image!"; /* Updates the UI to confirm successful selection */
 
-        var reader = new FileReader(); // Creates a new object to read the file's data
-        reader.onload = function (e) { // Defines what happens once the file is finished being read
-          var img = new Image(); // Creates a new image object in memory
-          img.onload = function () { // Defines what happens once the image object is fully loaded with data
-            drawImageIOSFix( // Custom function to draw the image while fixing orientation issues on iOS devices
+        var reader = new FileReader(); /* Creates a new object to read the file's data */
+        reader.onload = function (e) { /* Defines what happens once the file is finished being read */
+          var img = new Image(); /* Creates a new image object in memory */
+          img.onload = function () { /*  Defines what happens once the image object is fully loaded with data */
+            drawImageIOSFix( /* Custom function to draw the image while fixing orientation issues on iOS devices */
               context,
               img,
               0,
@@ -130,15 +130,15 @@ brief delay in processing high- resolution images
             );
 
             /*  +++++++++++++++ BEGIN IMAGE PROCESSING +++++++++++++++ */
-var imageData = context.getImageData(0, 0, 600, 500); // Grabs the pixel data from the first canvas
-var data = imageData.data; // Accesses the underlying array of pixel colors
-for (var i = 0; i < data.length; i += 4) { // Loops through every pixel (RGBA)
-  var blue = data[i + 2]; // Extracts the blue value (3rd item in the pixel group)
-  data[i] = 0; // Sets Red to zero
-  data[i + 1] = 0; // Sets Green to zero
-  data[i + 2] = blue; // Keeps the Blue value exactly as it was
+var imageData = context.getImageData(0, 0, 600, 500); /* Grabs the pixel data from the first canvas */
+var data = imageData.data; /* Accesses the underlying array of pixel colors */
+for (var i = 0; i < data.length; i += 4) { /*  Loops through every pixel (RGBA) */
+  var blue = data[i + 2]; /* Extracts the blue value (3rd item in the pixel group) */
+  data[i] = 0; /* Sets Red to zero */
+  data[i + 1] = 0; /* Sets Green to zero */
+  data[i + 2] = blue; /* Keeps the Blue value exactly as it was */
 }
-context2.putImageData(imageData, 0, 0); // Draws the modified "blue-only" data to the second canvas
+context2.putImageData(imageData, 0, 0); /* Draws the modified "blue-only" data to the second canvas */
       </script>
     </div>
     <!-- /content -->
