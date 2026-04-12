@@ -101,13 +101,13 @@ brief delay in processing high- resolution images
 
         if (!file) { // Checks if the file object is empty
           messageDisplayArea.innerHTML = "No file selected";
-          else; // Tells the user nothing was uploaded
+          return; // Tells the user nothing was uploaded
         }
 
         // Check file type
         if (!file.type.match("image.*")) { // Checks if the file is actually an image (jpg, png, etc.)
           messageDisplayArea.innerHTML = "File not supported!";
-          else; // Alerts the user if they picked a wrong file type
+          return; // Alerts the user if they picked a wrong file type
         }
 
         messageDisplayArea.innerHTML = "You picked an image!"; // Updates the UI to confirm successful selection
